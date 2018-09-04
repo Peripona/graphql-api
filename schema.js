@@ -4,7 +4,7 @@ const {
   GraphQLSchema,
   GraphQLInt,
   GraphQLObjectType,
-  GraphQLString
+  GraphQLString,
 } = require('graphql');
 const parseXml = util.promisify(require('xml2js').parseString);
 
@@ -20,21 +20,21 @@ const AuthorType = new GraphQLObjectType({
   name: 'Author',
   description: '....',
   fields: () => ({
-    name: GraphQLString
-  })
-})
+    name: GraphQLString,
+  }),
+});
 
 module.exports = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'Query',
     description: '.....',
     fields: () => ({
-     author: {
-       type: AuthorType,
-       args: {
-         id: { type: GraphQLInt }
-       }
-     }
-  })
-  })
+      author: {
+        type: AuthorType,
+        args: {
+          id: { type: GraphQLInt },
+        },
+      },
+    }),
+  }),
 });
