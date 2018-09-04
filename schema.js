@@ -20,8 +20,8 @@ const AuthorType = new GraphQLObjectType({
   name: 'Author',
   description: '....',
   fields: () => ({
-name: GraphQLString
-})
+    name: GraphQLString
+  })
 })
 
 module.exports = new GraphQLSchema({
