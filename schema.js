@@ -5,8 +5,25 @@ const {
   GraphQLInt,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLList,
 } = require('graphql');
 const parseXml = util.promisify(require('xml2js').parseString);
+
+const BookType = new GraphQLObjectType({
+  name: 'Book',
+  description: '...',
+
+  fields: () => ({
+    title: {
+      type: GraphQLString,
+      resolve: xml => xml.title[0],
+    },
+    isbn: {
+      type: GraphQLString,
+      resolve: xml => xml.isbn[0] || '',
+    },
+  }),
+});
 
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
@@ -14,10 +31,11 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     name: {
       type: GraphQLString,
-      resolve: xml => {
-        console.log(xml);
-        return xml.GoodreadsResponse.author[0].name[0];
-      },
+      resolve: xml => xml.GoodreadsResponse.author[0].name[0],
+    },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve: xml => xml.GoodreadsResponse.author[0].books[0].book,
     },
   }),
 });
